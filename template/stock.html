@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+{% include "navbar.html" %}
+
+            <!-- table Start -->
+            <div class="container-fluid pt-4 px-4">
+                <a href="{% url 'add_stock' %}" type="button" class="btn btn-lg btn-secondary m-2">Add Stock</a>
+                <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Stock</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="text-align: center;">ID</th>
+                                            <th scope="col" style="text-align: center;">Items</th>
+                                            <th scope="col" style="text-align: center;">Stock</th>
+                                            <th scope="col" style="text-align: center;">Unit</th>
+                                            <th scope="col" style="text-align: center;">Low Stock Quantity</th>
+                                            <th scope="col" style="text-align: center;">Notes</th>
+                                            <th scope="col" style="text-align: center;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    {% for i in sto %}
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align: center;">{{ forloop.counter }}</td>
+                                            <td style="text-align: center;">{{ i.item }}</td>
+                                            <td style="text-align: center;">{{i.stock}}</td>
+                                            <td style="text-align: center;">{{i.unit}}</td>
+                                            <td style="text-align: center;">{{i.low_stock}}</td>
+                                            <td style="text-align: center;">{{i.notes}}</td>
+
+                                            <td style="text-align: center;">
+                                                <a href="{% url 'edit_stock' i.id %}">Edit</a><br><br>
+                                                <a href="{% url 'delete_stock' i.id %}">Delete</a><br><br>
+                                                <a href="{% url 'used_stock' i.id %}">Recently Used</a>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <!-- table End -->
+
+
+
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/chart/chart.min.js' %}"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/moment.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -83,7 +83,7 @@ class TableSaree(models.Model):
     pallu = models.CharField(max_length=100, null=True)
 
 class TableOrders(models.Model):
-    customer_id = models.IntegerField(null=True)
+    customer_id = models.CharField(null=True)
     name = models.CharField(max_length=100, null=True)
     phone = models.IntegerField(null=True)
     email = models.EmailField(max_length=50,null=True)

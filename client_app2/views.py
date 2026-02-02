@@ -3,9 +3,11 @@ import datetime
 
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
-from client_app.models import TableOrders
+from client_app.models import TableOrders,TableCustomer
+
+from .models import *
 
 
 # Create your views here.
@@ -163,3 +165,59 @@ def export_orders_csv(request):
 def ongoing_orders(request):
     orders = TableOrders.objects.filter(status="Ordered").order_by("-id")
     return render(request, "ongoing_orders.html", {"orders": orders})
+
+def stock(request):
+    sto = TableStock.objects.all().order_by("-id")
+    return render(request, "stock.html",{"sto": sto})
+
+def add_stock(request):
+        return render(request, "add_stock.html")
+
+def save_stock(request):
+    if request.method == "POST":
+        item = request.POST.get("item")
+        stock = request.POST.get("stock")
+        unit = request.POST.get("unit")
+        low_stock = request.POST.get("low_stock")
+        notes = request.POST.get("notes")
+        TableStock.objects.create(item=item, stock=stock, unit=unit, notes=notes, low_stock=low_stock)
+        return redirect("stock")
+
+
+def edit_stock(request, stock_id):
+    sto = TableStock.objects.get(id=stock_id)
+    return render(request, "edit_stock.html", {"sto": sto})
+
+def update_stock(request, stock_id):
+    if request.method == "POST":
+        item = request.POST.get("item")
+        stock = request.POST.get("stock")
+        unit = request.POST.get("unit")
+        low_stock = request.POST.get("low_stock")
+        notes = request.POST.get("notes")
+
+        tab_obj = TableStock.objects.get(id=stock_id)
+        tab_obj.item = item
+        tab_obj.stock = stock
+        tab_obj.unit = unit
+        tab_obj.low_stock = low_stock
+        tab_obj.notes = notes
+        tab_obj.save()
+        return redirect("stock")
+
+def delete_stock(request, stock_id):
+    tab_obj = TableStock.objects.get(id=stock_id)
+    tab_obj.delete()
+    return redirect("stock")
+
+def used_stock(request, stock_id):
+    sto = TableStock.objects.get(id=stock_id)
+    return render(request, "used_stock.html", {"sto": sto})
+
+def save_used_stock(request, stock_id):
+    if request.method == "POST":
+        used_stock = float(request.POST.get("used_stock"))
+        tab_obj = TableStock.objects.get(id=stock_id)
+        tab_obj.stock = tab_obj.stock - used_stock
+        tab_obj.save()
+        return redirect("stock")
