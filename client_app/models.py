@@ -106,5 +106,23 @@ class TableOrders(models.Model):
     notes = models.TextField(null=True)
     status = models.CharField(max_length=100, null=True)
 
+class TableStaffs(models.Model):
+    staffid=models.CharField(max_length=20, unique=True, blank=True)
+    name=models.CharField(max_length=100,null=True)
+    role=models.CharField(max_length=200,null=True)
+    phone=models.IntegerField(null=True)
+    email=models.EmailField(null=True)
+    address=models.CharField(max_length=100,null=True)
+    status=models.CharField(max_length=20,null=True)
+
+    def save(self, *args, **kwargs):
+        creating = self.pk is None
+
+        super().save(*args, **kwargs)
+
+        if creating and not self.staffid:
+            self.staffid = f"STAFF{self.id}"
+            super().save(update_fields=["staffid"])
+
 
 
