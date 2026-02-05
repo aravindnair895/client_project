@@ -1,0 +1,20 @@
+# Virtual Environment
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database
+db.sqlite3
+
+# Media
+media/
+
+# Environment variables
+.env
+
+
