@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <style>
+        body { font-family: Arial; }
+        .container { padding: 20px; }
+        .title { text-align: center; font-size: 22px; font-weight: bold; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        td, th { border: 1px solid black; padding: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <img src="{{ logo_path }}" width="120">
+
+<div class="title">Salary Slip</div>
+
+<p><strong>Name:</strong> {{ salary.staff.name }}</p>
+<p><strong>Month:</strong> {{ salary.date }}</p>
+<p><strong>Role:</strong> {{ salary.staff.role }}</p>
+
+<table style="width:100%; border-collapse:collapse; margin-top:20px;">
+
+    <colgroup>
+        <col style="width:70%;">
+        <col style="width:30%;">
+    </colgroup>
+
+    <tr>
+        <th style="border:1px solid black; padding:8px;">Description</th>
+        <th style="border:1px solid black; padding:8px; text-align:right;">Amount</th>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid black; padding:8px;">Basic Salary</td>
+        <td style="border:1px solid black; padding:8px; text-align:right;">
+            {% if salary.staff.monthly_salary %}{{ salary.staff.monthly_salary }}{% elif salary.staff.daily_wage %}
+            {{ salary.staff.daily_wage }}{% endif %}
+        </td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid black; padding:8px;">Overtime</td>
+        <td style="border:1px solid black; padding:8px; text-align:right;">
+            {{ salary.total_overtime }}
+        </td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid black; padding:8px;">Advance Deduction</td>
+        <td style="border:1px solid black; padding:8px; text-align:right;">
+            {{ advance_total }}
+        </td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid black; padding:8px;">Pending</td>
+        <td style="border:1px solid black; padding:8px; text-align:right;">
+            {{ pending_total }}
+        </td>
+    </tr>
+
+    <tr>
+        <th style="border:1px solid black; padding:8px;">Total Salary</th>
+        <th style="border:1px solid black; padding:8px; text-align:right;">
+            {{ salary.total_salary }}
+        </th>
+    </tr>
+
+</table>
+
+
+</div>
+</body>
+</html>

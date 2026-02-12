@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+{% include "navbar.html" %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="bg-secondary rounded h-100 p-4">
+
+                <h6 class="mb-4">Generate Monthly Salary</h6>
+
+                <form action="/generate_msalary/" method="post">
+                    {% csrf_token %}
+
+                    <!-- Salary Date -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Salary Date</label>
+                        <div class="col-sm-10">
+                            <input type="date" name="date" class="form-control-sm" required>
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">
+                        Generate monthly Salary
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="bg-secondary rounded p-4">
+
+                <h6>Generate Weekly Salary - Temporary Staff</h6>
+
+                <form action="/generate_tsalary/" method="post">
+                    {% csrf_token %}
+
+                    <label>Salary Date</label>
+                    <input type="date" name="date" class="form-control-sm" required>
+
+                    <hr>
+
+                    {% for s in staff %}
+                        {% if s.staff_type == "temporary" %}
+
+                            <input type="checkbox"
+                                   name="selected_staffs"
+                                   value="{{ s.id }}"
+                                   class="staff-checkbox"
+                                   data-target="days_{{ s.id }}">
+
+                            {{ s.name }}
+
+                            <input type="number"
+                                   id="days_{{ s.id }}"
+                                   name="days_{{ s.id }}"
+                                   class="staff-days"
+                                   placeholder="Days"
+                                   min="0"
+                                   max="6"
+                                   disabled>
+
+                            <br>
+
+                        {% endif %}
+                    {% endfor %}
+
+                    <br>
+
+                    <button class="btn btn-warning">
+                        Generate Weekly Salary
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+
+document.querySelectorAll(".staff-checkbox").forEach(function(checkbox) {
+
+    checkbox.addEventListener("change", function() {
+
+        let targetId = this.dataset.target;
+        let daysInput = document.getElementById(targetId);
+
+        daysInput.disabled = !this.checked;
+
+        if (!this.checked) {
+            daysInput.value = "";
+        }
+
+    });
+
+});
+
+
+</script>
+
+</body>
+</html>
