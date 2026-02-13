@@ -63,12 +63,7 @@
                                     </div>
                                 </div>
 
-<!--                                <div class="row mb-3">-->
-<!--                                    <label for="salary" class="col-sm-2 col-form-label">Monthly Salary</label>-->
-<!--                                    <div class="col-sm-10">-->
-<!--                                        <input type="number" name="salary" class="form-control" id="salary" tabindex="7" required>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+
                                 <div class="row mb-3" id="monthly_salary_section">
                                     <label class="col-sm-2 col-form-label">Monthly Salary</label>
                                     <div class="col-sm-10">
@@ -76,10 +71,11 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-3" id="daily_wage_section" style="display:none;">
+
+                                <div class="row mb-3 d-none" id="daily_wage_section">
                                     <label class="col-sm-2 col-form-label">Daily Wage</label>
                                     <div class="col-sm-10">
-                                        <input type="number" name="daily_wage" class="form-control" tabindex="8">
+                                        <input type="number" name="daily_wage" class="form-control" tabindex="9">
                                     </div>
                                 </div>
 
@@ -111,53 +107,69 @@
     <script>
     document.querySelectorAll("form").forEach(function(form) {
 
-        form.addEventListener("keydown", function(e) {
+    form.addEventListener("keydown", function(e) {
 
-            if (e.key === "Enter" && !e.ctrlKey) {
+        if (e.key === "Enter" && !e.ctrlKey) {
 
-                e.preventDefault();
+            e.preventDefault();
 
-                let next = document.querySelector(
-                    '[tabindex="' + (parseInt(e.target.tabIndex) + 1) + '"]'
+            let currentTab = parseInt(e.target.tabIndex);
+
+            let next = null;
+
+            // Loop until next visible tabindex is found
+            while (!next && currentTab < 50) {
+                currentTab++;
+
+                let candidate = document.querySelector(
+                    '[tabindex="' + currentTab + '"]'
                 );
 
-                if (next) {
-                    next.focus();
-                    next.select?.();
+                if (candidate && candidate.offsetParent !== null) {
+                    next = candidate;
                 }
             }
 
-            // CTRL + ENTER → Submit form
-            if (e.key === "Enter" && e.ctrlKey) {
-                form.submit();
+            if (next) {
+                next.focus();
+                if (next.select) next.select();
             }
+        }
 
-        });
+        // CTRL + ENTER → Submit
+        if (e.key === "Enter" && e.ctrlKey) {
+            form.submit();
+        }
 
     });
+
+});
     </script>
 
     <script>
         const staffType = document.getElementById("staff_type");
-        const monthlySection = document.getElementById("monthly_salary_section");
-        const dailySection = document.getElementById("daily_wage_section");
+const monthlySection = document.getElementById("monthly_salary_section");
+const dailySection = document.getElementById("daily_wage_section");
 
-        function toggleSalaryFields() {
+function toggleSalaryFields() {
 
-            if (staffType.value === "temporary") {
-                monthlySection.style.display = "none";
-                dailySection.style.display = "block";
-            }
-            else {
-                monthlySection.style.display = "block";
-                dailySection.style.display = "none";
-            }
-        }
+    if (staffType.value === "temporary") {
 
-        staffType.addEventListener("change", toggleSalaryFields);
+        monthlySection.classList.add("d-none");
+        dailySection.classList.remove("d-none");
 
-        // Run once on page load
-        toggleSalaryFields();
+    } else {
+
+        monthlySection.classList.remove("d-none");
+        dailySection.classList.add("d-none");
+
+    }
+}
+
+staffType.addEventListener("change", toggleSalaryFields);
+
+// Run once on page load
+toggleSalaryFields();
 
     </script>
 

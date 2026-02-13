@@ -111,6 +111,14 @@
                                                 <a href="/add_overtime/{{i.id}}" >Add Overtime</a>
                                                 <br>
                                                 {% if i.total_overtime != 0 %}
+                                                <a href="/delete_overtime/{{i.id}}">Delete Overtime</a>
+                                                <br>
+                                                {% endif %}
+                                                {% endif %}
+                                                <br>
+
+                                                <a href="/add_advance/{{i.id}}" >Add Advance</a><br>
+                                                {% if i.total_overtime != 0 %}
 
                                                 <a href="#"
                                                    data-bs-toggle="modal"
@@ -120,14 +128,8 @@
                                                    data-overtime="{{ i.total_overtime }}">
                                                    OT Details
                                                 </a>
-                                                <br>
-                                                <a href="/delete_overtime/{{i.id}}">Delete Overtime</a>
-                                                <br>
-                                                {% endif %}
                                                 {% endif %}
                                                 <br>
-
-                                                <a href="/add_advance/{{i.id}}" >Add Advance</a><br>
                                                 {% if i.status != "paid" %}
                                                     <a href="/add_pending/{{i.id}}">Add Pending</a>
                                                 {% endif %}
